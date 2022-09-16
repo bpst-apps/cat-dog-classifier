@@ -14,10 +14,6 @@ app = Flask(__name__)
 
 
 def make_predictions(image_name, image_size=(180, 180)):
-    # check if upload directory exits
-    if not os.path.exists('uploads'):
-        os.makedirs('uploads')
-
     # load & process image
     img = keras.preprocessing.image.load_img(
         os.path.join('uploads', image_name),
@@ -43,6 +39,10 @@ def index():
 
 @app.route('/api/image', methods=['POST'])
 def upload_image():
+    # check if upload directory exits
+    if not os.path.exists('uploads'):
+        os.makedirs('uploads')
+
     # check for image
     if 'image' not in request.files:
         return render_template('image.html', prediction='No image uploaded!!!')
